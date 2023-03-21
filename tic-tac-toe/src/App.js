@@ -82,12 +82,18 @@ export default function Game() {
     );
   });
 
+  const currentMoveDescription =
+    currentMove === 0
+      ? "Make your first move"
+      : "The current move is " + currentMove;
+
   return (
     <div className="game">
       <div className="game-board">
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">
+        <div className="current-move-desc">{currentMoveDescription}</div>
         <ol>{moves}</ol>
       </div>
     </div>
