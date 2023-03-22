@@ -1,8 +1,10 @@
 import { useState } from "react";
+import "./styles.css";
 
-function Square({ value, onSquareClick }) {
+function Square({ value, onSquareClick, isWinner }) {
+  const squareClassName = isWinner ? "square-winner" : "square";
   return (
-    <button className="square" onClick={onSquareClick}>
+    <button className={squareClassName} onClick={onSquareClick}>
       {value}
     </button>
   );
@@ -10,7 +12,8 @@ function Square({ value, onSquareClick }) {
 
 function Board({ xIsNext, squares, onPlay }) {
   function handleClick(i) {
-    if (calculateWinner(squares) || squares[i]) {
+    const { winner } = calculateWinner(squares);
+    if (winner || squares[i]) {
       return;
     }
     const nextSquares = squares.slice();
@@ -22,9 +25,12 @@ function Board({ xIsNext, squares, onPlay }) {
     onPlay(nextSquares);
   }
 
-  const winner = calculateWinner(squares);
+  const { winner, winningSquares } = calculateWinner(squares);
+
   let status;
-  if (winner) {
+  if (winner === "draw") {
+    status = "It's a " + winner;
+  } else if (winner) {
     status = "Winner: " + winner;
   } else {
     status = "Next player: " + (xIsNext ? "X" : "O");
@@ -46,6 +52,7 @@ function Board({ xIsNext, squares, onPlay }) {
               key={squareNum}
               value={squares[squareNum]}
               onSquareClick={() => handleClick(squareNum)}
+              isWinner={winningSquares.includes(squareNum)}
             />
           ))}
         </div>
@@ -112,7 +119,7 @@ export default function Game() {
 }
 
 function calculateWinner(squares) {
-  const lines = [
+  const winningLines = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -122,11 +129,14 @@ function calculateWinner(squares) {
     [0, 4, 8],
     [2, 4, 6],
   ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
+  for (let i = 0; i < winningLines.length; i++) {
+    const [a, b, c] = winningLines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return { winner: squares[a], winningSquares: [a, b, c] };
     }
   }
-  return null;
+  if (squares.every((square) => square !== null)) {
+    return { winner: "draw", winningSquares: [] };
+  }
+  return { winner: null, winningSquares: [] };
 }
