@@ -1,6 +1,6 @@
 # TicTacToe
 
-This is the source code!, 
+This is the source code! 
 
 Go to the main page: 
 
