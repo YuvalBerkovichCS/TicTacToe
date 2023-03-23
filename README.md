@@ -1,5 +1,4 @@
 # TicTacToe
-react tutorial tic tac toe: https://react.dev/learn/tutorial-tic-tac-toe
 
 This is the source code!, 
 
