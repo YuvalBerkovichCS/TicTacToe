@@ -63,18 +63,20 @@ function Board({ xIsNext, squares, onPlay }) {
   return (
     <div>
       <div className="status">{status}</div>
-      {boardMatrix.map((boardArray, rowIndex) => (
-        <div key={rowIndex} className="board-row">
-          {boardArray.map((squareNum) => (
-            <Square
-              key={squareNum}
-              value={squares[squareNum]}
-              onSquareClick={() => handleClick(squareNum)}
-              isWinner={winningSquares.includes(squareNum)}
-            />
-          ))}
-        </div>
-      ))}
+      <div className="board">
+        {boardMatrix.map((boardArray, rowIndex) => (
+          <div key={rowIndex} className="board-row">
+            {boardArray.map((squareNum) => (
+              <Square
+                key={squareNum}
+                value={squares[squareNum]}
+                onSquareClick={() => handleClick(squareNum)}
+                isWinner={winningSquares.includes(squareNum)}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

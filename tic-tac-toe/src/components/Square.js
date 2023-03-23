@@ -1,10 +1,14 @@
 import "./style.css";
 function Square({ value, onSquareClick, isWinner }) {
-  const squareClassName = isWinner ? "square-winner" : "square";
   return (
-    <button className={squareClassName} onClick={onSquareClick}>
+    <div
+      className={`square ${isWinner ? "square-winner" : ""} ${
+        !value ? "" : "hasValue"
+      }`}
+      onClick={onSquareClick}
+    >
       {value}
-    </button>
+    </div>
   );
 }
 
